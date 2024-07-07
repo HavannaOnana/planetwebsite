@@ -1,52 +1,47 @@
-import './style.css';
-import * as THREE from 'three';
+import * as THREE from "three";
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import './style.css';  // Make sure style.css exists if you're importing it
 
-// Create a renderer with antialiasing enabled
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
+// making a renderer
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth , window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-
-// Append the renderer's canvas to the DOM
 document.body.appendChild(renderer.domElement);
 
-// Create a camera
-const fov = 90;
-const aspect = window.innerWidth / window.innerHeight;
+// making a camera 
+const fov = 30; 
+const aspect = window.innerWidth / window.outerHeight;
 const near = 0.1;
 const far = 100;
-const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-camera.position.z = 2;
 
-// Create a new scene
+const camera = new THREE.PerspectiveCamera(fov, aspect,near, far);
+camera.position.z = -1;
+
+//making a loader
+const loader = new THREE.TextureLoader();
+
+//making a scene 
 const scene = new THREE.Scene();
 
-// Create a geometry and material
-const geometry = new THREE.IcosahedronGeometry(1, 20);
-const material = new THREE.MeshStandardMaterial({ color: "white" });
+// making the mesh and ever group for the Earth Planet
 
-// Create a mesh and add it to the scene
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+//making an earthGroup
+const earthGroup = new THREE.Group();
+earthGroup.position.y = -2;
+earthGroup.position.x = -2;
+scene.add(earthGroup);
 
-// Add a light to the scene
-const hemiLight = new THREE.HemisphereLight("white", "white");
-scene.add(hemiLight);
 
-// Handle window resize
-window.addEventListener('resize', onWindowResize);
+// The geometry and material
+const earthGeometry = new THREE.IcosahedronGeometry(1);
+const earthMaterial = new THREE.MeshStandardMaterial({
+  color : "white",
+  map : loader.load('/textures/earthy.jpg')
+})
 
-function onWindowResize() {
-  // Update camera aspect ratio and renderer size
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
+//making an EarthMesh 
+const earthMesh = new THREE.Mesh(earthGeometry,earthMaterial);
+earthGroup.add(earthMesh);
 
-// Function to render the scene
-function animate() {
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-}
 
-// Start the rendering loop
-animate();
+
