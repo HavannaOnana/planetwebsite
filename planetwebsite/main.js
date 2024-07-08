@@ -1,62 +1,120 @@
-  import * as THREE from "three";
-  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-  import './style.css';  // Make sure style.css exists if you're importing it
+import * as THREE from "three";
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import './style.css';  // Make sure style.css exists if you're importing it
+import { getFresnelMat } from '../getFresnelMat';
+import getStarfield from '../getStarfield';
 
-  // making a renderer
-  const renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(window.innerWidth , window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  document.body.appendChild(renderer.domElement);
+// making a renderer
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth , window.outerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+document.body.appendChild(renderer.domElement);
 
-  // making a camera 
-  const fov = 70; 
-  const aspect = window.innerWidth / window.innerHeight;
-  const near = 0.1;
-  const far = 100;
+// making a camera 
+const fov = 100; 
+const aspect = window.innerWidth / window.outerHeight;
+const near = 0.1;
+const far = 300;
 
-  const camera = new THREE.PerspectiveCamera(fov, aspect,near, far);
-  camera.position.z = 2;
+const camera = new THREE.PerspectiveCamera(fov, aspect,near, far);
+camera.position.z = 2;
 
-  //making a loader
-  const loader = new THREE.TextureLoader();
+//making a loader
+const loader = new THREE.TextureLoader();
 
-  //making a scene 
-  const scene = new THREE.Scene();
+//making a scene 
+const scene = new THREE.Scene();
 
-  // making the mesh and ever group for the Earth Planet
+// making the mesh and ever group for the Earth Planet
 
-  //making an earthGroup
-  const earthGroup = new THREE.Group();
-
-  scene.add(earthGroup);
-
-
-  // The geometry and material
-  const earthGeometry = new THREE.IcosahedronGeometry(1 , 20);
-  const earthMaterial = new THREE.MeshStandardMaterial({
-    color : "white",
-    map : loader.load('/textures/earthy.jpg')
-  })
-
-  //making an EarthMesh 
-  const earthMesh = new THREE.Mesh(earthGeometry,earthMaterial);
-  earthGroup.add(earthMesh);
+//making an earthGroup
+const earthGroup = new THREE.Group();
+earthGroup.rotation.z = -23.4 * Math.PI / 180;
+scene.add(earthGroup);
 
 
-  // making a earthliight to earth
-  const hemiEarthLight = new THREE.HemisphereLight("black","lightblue",1);
-  scene.add(hemiEarthLight);
+// The geometry and material
+const earthGeometry = new THREE.IcosahedronGeometry(1 , 20);
+const earthMaterial = new THREE.MeshStandardMaterial({
+  color : "white",
+  map : loader.load('/textures/earthy.jpg')
+})
 
-  //making a directional light for the earth
-  const Sunlight = new THREE.DirectionalLight("white");
-  Sunlight.position.set(-2,0.5,1.5);
-  scene.add(Sunlight)
+//making an EarthMesh 
+const earthMesh = new THREE.Mesh(earthGeometry,earthMaterial);
+earthMesh.scale.setScalar(1.001)
+earthGroup.add(earthMesh);
 
-  //making the function animate to render the scene
-  function animate(){
-    requestAnimationFrame(animate);
-    earthMesh.rotation.y += 0.0008;
-    renderer.render(scene, camera);
-  }
+// making a earthliight to earth
+const hemiEarthLight = new THREE.HemisphereLight("black","lightblue",1);
+scene.add(hemiEarthLight);
 
-  animate();
+//making a directional light for the earth
+const Sunlight = new THREE.DirectionalLight("lightblue");
+Sunlight.position.set(-2,0.5,1.5);
+scene.add(Sunlight)
+
+//adding the night version
+const earthNightlight = new THREE.MeshBasicMaterial({
+  map : loader.load("/textures/earthdark.png"),
+  blending : THREE.AdditiveBlending,
+  transparent:true
+})
+//adding the mesh of the earthNightlight
+const earthNightlightMesh = new THREE.Mesh(earthGeometry,earthNightlight);
+earthGroup.add(earthNightlightMesh);
+
+//adding clouds
+const earthClouds = new THREE.MeshBasicMaterial({
+  map: loader.load("/textures/clouds.jpg"),
+  blending : THREE.AdditiveBlending,
+  transparent:true
+})
+// adding clouds mesh
+const earthCloudsMesh = new THREE.Mesh(earthGeometry,earthClouds);
+earthCloudsMesh.scale.setScalar(1.005)
+earthGroup.add(earthCloudsMesh);
+
+//adding a glow to the earth
+const earthfresnelMat = getFresnelMat();
+const earthGlowMesh = new THREE.Mesh(earthGeometry,earthfresnelMat);
+earthGlowMesh.scale.setScalar(1.01);
+earthGroup.add(earthGlowMesh);
+
+// going to add stars
+const stars = getStarfield({numStars : 100});
+scene.add(stars);
+
+
+//making the function animate to render the scene
+function animate(){
+  requestAnimationFrame(animate);
+  earthMesh.rotation.y += 0.0008;
+  earthNightlightMesh.rotation.y +=0.0008;
+  earthCloudsMesh.rotation.y += 0.001;
+  earthGlowMesh.rotation.y += 0.0008;
+  renderer.render(scene, camera);
+}
+
+animate();
+
+
+//making venus too
+
+
+const venusGroup = new THREE.Group();
+venusGroup.position.set(3, 0, 0);
+scene.add(venusGroup)
+
+
+// making the geometry and material 
+const venusGeometry = new THREE.IcosahedronGeometry(1,20);
+const venusMaterial = new THREE.MeshBasicMaterial({
+  map: loader.load("/textures/venus.jpg")
+})
+
+
+//making a mesh 
+const venusMesh = new THREE.Mesh(venusGeometry,venusMaterial);
+venusGroup.add(venusMesh);
+
