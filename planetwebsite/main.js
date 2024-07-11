@@ -14,7 +14,7 @@ document.body.appendChild(renderer.domElement);
 const fov = 50; 
 const aspect = window.innerWidth / window.outerHeight;
 const near = 0.1;
-const far = 100;
+const far = 700;
 
 const camera = new THREE.PerspectiveCamera(fov, aspect,near, far);
 camera.position.z = 2;
@@ -29,13 +29,13 @@ const scene = new THREE.Scene();
 
 //making an earthGroup
 const earthGroup = new THREE.Group();
-earthGroup.rotation.z = -23.4 * Math.PI / 180;
+//earthGroup.rotation.z = -23.4 * Math.PI / 180;
 earthGroup.position.set(0,-0.2,-0.6)
 scene.add(earthGroup);
 
 
 // The geometry and material
-const earthGeometry = new THREE.IcosahedronGeometry(1 , 20);
+const earthGeometry = new THREE.IcosahedronGeometry(1,20);
 const earthMaterial = new THREE.MeshStandardMaterial({
   color : "white",
   map : loader.load('/textures/earthy.jpg')
@@ -47,12 +47,12 @@ earthMesh.scale.setScalar(1.001)
 earthGroup.add(earthMesh);
 
 // making a earthliight to earth
-const hemiEarthLight = new THREE.HemisphereLight("black","black");
+const hemiEarthLight = new THREE.HemisphereLight("black","lightblue",);
 scene.add(hemiEarthLight);
 
 //making a directional light for the earth
-const Sunlight = new THREE.DirectionalLight("lightblue");
-Sunlight.position.set(-2,0.5,1.5);
+const Sunlight = new THREE.DirectionalLight("lightblue",1);
+Sunlight.position.set(10,0,0);
 scene.add(Sunlight)
 
 //adding the night version
@@ -69,6 +69,7 @@ earthGroup.add(earthNightlightMesh);
 const earthClouds = new THREE.MeshBasicMaterial({
   map: loader.load("/textures/clouds.jpg"),
   blending : THREE.AdditiveBlending,
+  color: 0x00FFFFFF,
   transparent:true
 })
 // adding clouds mesh
@@ -82,8 +83,9 @@ const earthGlowMesh = new THREE.Mesh(earthGeometry,earthfresnelMat);
 earthGlowMesh.scale.setScalar(1.01);
 earthGroup.add(earthGlowMesh);
 
+
 // going to add stars
-const stars = getStarfield({numStars : 100});
+const stars = getStarfield({numStars : 500});
 scene.add(stars);
 
 
@@ -91,7 +93,7 @@ scene.add(stars);
 function animate(){
   requestAnimationFrame(animate);
   earthMesh.rotation.y += 0.0008;
-  earthNightlightMesh.rotation.y +=0.0008;
+  earthNightlightMesh.rotation.y +=0.0006;
   earthCloudsMesh.rotation.y += 0.001;
   earthGlowMesh.rotation.y += 0.0008;
   renderer.render(scene, camera);
