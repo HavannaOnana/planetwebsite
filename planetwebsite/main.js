@@ -29,8 +29,9 @@ const scene = new THREE.Scene();
 
 //making an earthGroup
 const earthGroup = new THREE.Group();
-//earthGroup.rotation.z = -23.4 * Math.PI / 180;
-earthGroup.position.set(0,-0.2,-0.6)
+earthGroup.rotation.z = -23.4 * Math.PI / 180;
+earthGroup.position.set(0,-1,-0.6)
+//earthGroup.position.set(0,-0.2,-0.6)
 scene.add(earthGroup);
 
 
@@ -106,7 +107,7 @@ animate();
 
 
 const venusGroup = new THREE.Group();
-venusGroup.position.set(0, 2, -5);
+venusGroup.position.set(0, 1.5, -5);
 scene.add(venusGroup)
 
 
@@ -116,8 +117,16 @@ const venusMaterial = new THREE.MeshBasicMaterial({
   map: loader.load("/textures/venus.jpg")
 })
 
-
 //making a mesh 
 const venusMesh = new THREE.Mesh(venusGeometry,venusMaterial);
 venusGroup.add(venusMesh);
 
+//making a directionallight for venus 
+
+function animateVenus(){
+  requestAnimationFrame(animateVenus);
+  venusGroup.rotation.y +=0.0010;
+  renderer.render(scene,camera)
+}
+
+animateVenus();
