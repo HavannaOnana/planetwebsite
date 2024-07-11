@@ -11,10 +11,10 @@ renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild(renderer.domElement);
 
 // making a camera 
-const fov = 100; 
+const fov = 50; 
 const aspect = window.innerWidth / window.outerHeight;
 const near = 0.1;
-const far = 300;
+const far = 100;
 
 const camera = new THREE.PerspectiveCamera(fov, aspect,near, far);
 camera.position.z = 2;
@@ -30,6 +30,7 @@ const scene = new THREE.Scene();
 //making an earthGroup
 const earthGroup = new THREE.Group();
 earthGroup.rotation.z = -23.4 * Math.PI / 180;
+earthGroup.position.set(0,-0.2,-0.6)
 scene.add(earthGroup);
 
 
@@ -46,7 +47,7 @@ earthMesh.scale.setScalar(1.001)
 earthGroup.add(earthMesh);
 
 // making a earthliight to earth
-const hemiEarthLight = new THREE.HemisphereLight("black","lightblue",1);
+const hemiEarthLight = new THREE.HemisphereLight("black","black");
 scene.add(hemiEarthLight);
 
 //making a directional light for the earth
@@ -103,7 +104,7 @@ animate();
 
 
 const venusGroup = new THREE.Group();
-venusGroup.position.set(3, 0, 0);
+venusGroup.position.set(0, 2, -5);
 scene.add(venusGroup)
 
 
