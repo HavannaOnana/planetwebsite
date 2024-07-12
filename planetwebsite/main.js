@@ -4,7 +4,7 @@ import './style.css';  // Make sure style.css exists if you're importing it
 import { getFresnelMat } from '../getFresnelMat';
 import getStarfield from '../getStarfield';
 import { color } from "three/examples/jsm/nodes/Nodes.js";
-
+import gsap from "gsap";
 
 // making a renderer
 const renderer = new THREE.WebGLRenderer({antialias:true});
@@ -32,8 +32,8 @@ const scene = new THREE.Scene();
 //making an earthGroup
 const earthGroup = new THREE.Group();
 earthGroup.rotation.z = -23.4 * Math.PI / 180;
-earthGroup.position.set(0,-1,-0.6)
-//earthGroup.position.set(0,-0.2,-0.6)
+//earthGroup.position.set(0,-1,-0.6)
+earthGroup.position.set(0,0,-1)
 scene.add(earthGroup);
 
 
@@ -99,14 +99,14 @@ scene.add(stars);
 
 
 const venusGroup = new THREE.Group();
-venusGroup.position.set(0, 0, -5);
+venusGroup.position.set(0,0, 4);
 scene.add(venusGroup)
 
 
 // making the geometry and material 
 const venusGeometry = new THREE.IcosahedronGeometry(1,20);
 const venusMaterial = new THREE.MeshBasicMaterial({
-  map: loader.load("/textures/venus.jpg")
+  map: loader.load("/textures/venus1.jpg")
 })
 
 //making a mesh 
@@ -128,4 +128,14 @@ function animate(){
   renderer.render(scene, camera);
 }
 
+// Animate the Earth moving out of the view and zooming into Venus after a delay
+function animateEarthAndVenus() {
+  gsap.to(camera.position, { duration: 3, z: 3, delay: 2 });
+  gsap.to(earthGroup.position, { duration: 3, z: -5, y:2, delay: 2 });
+  gsap.to(venusGroup.position, { duration: 3, z: 0.6, y:-0.39,  delay: 2 });
+}
+
+
+
 animate();
+animateEarthAndVenus()
