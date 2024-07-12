@@ -95,25 +95,28 @@ scene.add(stars);
 
 
 
-//making venus too
+//making moon too
 
 
-const venusGroup = new THREE.Group();
-venusGroup.position.set(0,0, 4);
-scene.add(venusGroup)
+const moonGroup = new THREE.Group();
+moonGroup.position.set(0,0, 4);
+scene.add(moonGroup)
 
 
 // making the geometry and material 
-const venusGeometry = new THREE.IcosahedronGeometry(1,20);
-const venusMaterial = new THREE.MeshBasicMaterial({
-  map: loader.load("/textures/venus1.jpg")
+const moonGeometry = new THREE.IcosahedronGeometry(1,20);
+const moonTexture = loader.load("/textures/moon.jpg")
+const moonMaterial = new THREE.MeshBasicMaterial({
+  map: moonTexture,
+  color : "whitesmoke"
 })
 
+//increasing the sharpness
+moonTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
 //making a mesh 
-const venusMesh = new THREE.Mesh(venusGeometry,venusMaterial);
-venusGroup.add(venusMesh);
-
-
+const moonMesh = new THREE.Mesh(moonGeometry,moonMaterial);
+moonGroup.add(moonMesh);
 
 
 
@@ -124,18 +127,21 @@ function animate(){
   earthNightlightMesh.rotation.y +=0.0006;
   earthCloudsMesh.rotation.y += 0.001;
   earthGlowMesh.rotation.y += 0.0008;
-  venusGroup.rotation.y +=0.0010;
+  moonGroup.rotation.y +=0.0010;
   renderer.render(scene, camera);
 }
+
+//animating the earth for the beginning
+
 
 // Animate the Earth moving out of the view and zooming into Venus after a delay
 function animateEarthAndVenus() {
   gsap.to(camera.position, { duration: 3, z: 3, delay: 2 });
   gsap.to(earthGroup.position, { duration: 3, z: -5, y:2, delay: 2 });
-  gsap.to(venusGroup.position, { duration: 3, z: 0.6, y:-0.39,  delay: 2 });
+  gsap.to(moonGroup.position, { duration: 3, z: 0.6, y:-0.39,  delay: 2 });
 }
 
 
 
 animate();
-animateEarthAndVenus()
+//animateEarthAndVenus()
