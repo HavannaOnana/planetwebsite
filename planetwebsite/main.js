@@ -3,6 +3,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import './style.css';  // Make sure style.css exists if you're importing it
 import { getFresnelMat } from '../getFresnelMat';
 import getStarfield from '../getStarfield';
+import { color } from "three/examples/jsm/nodes/Nodes.js";
+
 
 // making a renderer
 const renderer = new THREE.WebGLRenderer({antialias:true});
@@ -90,24 +92,14 @@ const stars = getStarfield({numStars : 500});
 scene.add(stars);
 
 
-//making the function animate to render the scene
-function animate(){
-  requestAnimationFrame(animate);
-  earthMesh.rotation.y += 0.0008;
-  earthNightlightMesh.rotation.y +=0.0006;
-  earthCloudsMesh.rotation.y += 0.001;
-  earthGlowMesh.rotation.y += 0.0008;
-  renderer.render(scene, camera);
-}
 
-animate();
 
 
 //making venus too
 
 
 const venusGroup = new THREE.Group();
-venusGroup.position.set(0, 1.5, -5);
+venusGroup.position.set(0, 0, -5);
 scene.add(venusGroup)
 
 
@@ -121,12 +113,19 @@ const venusMaterial = new THREE.MeshBasicMaterial({
 const venusMesh = new THREE.Mesh(venusGeometry,venusMaterial);
 venusGroup.add(venusMesh);
 
-//making a directionallight for venus 
 
-function animateVenus(){
-  requestAnimationFrame(animateVenus);
+
+
+
+//making the function animate to render the scene
+function animate(){
+  requestAnimationFrame(animate);
+  earthMesh.rotation.y += 0.0008;
+  earthNightlightMesh.rotation.y +=0.0006;
+  earthCloudsMesh.rotation.y += 0.001;
+  earthGlowMesh.rotation.y += 0.0008;
   venusGroup.rotation.y +=0.0010;
-  renderer.render(scene,camera)
+  renderer.render(scene, camera);
 }
 
-animateVenus();
+animate();
