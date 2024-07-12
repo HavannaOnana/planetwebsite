@@ -33,7 +33,7 @@ const scene = new THREE.Scene();
 const earthGroup = new THREE.Group();
 earthGroup.rotation.z = -23.4 * Math.PI / 180;
 //earthGroup.position.set(0,-1,-0.6)
-earthGroup.position.set(0,0,-1)
+earthGroup.position.set(0,-3,-1)
 scene.add(earthGroup);
 
 
@@ -119,6 +119,12 @@ const moonMesh = new THREE.Mesh(moonGeometry,moonMaterial);
 moonGroup.add(moonMesh);
 
 
+//selecting the content from html
+const contentDiv = document.querySelector(".content");
+const Button = document.querySelector(".moon");
+const contentH1 = document.getElementById("h1")
+
+
 
 //making the function animate to render the scene
 function animate(){
@@ -132,6 +138,19 @@ function animate(){
 }
 
 //animating the earth for the beginning
+function beginning(){
+  gsap.to(earthGroup.position, {duration : 3 , y:-0.7 , delay : 1,
+    onUpdate : ()=>{
+      //checking to see if the Y of the Earth is 0.7
+      if(Math.abs(earthGroup.position.y + 0.7)< 0.01){
+        //we show the text
+        contentDiv.classList.add("fade-in")
+      }
+    }
+  });
+  
+}
+
 
 
 // Animate the Earth moving out of the view and zooming into Venus after a delay
@@ -142,6 +161,6 @@ function animateEarthAndVenus() {
 }
 
 
-
+beginning();
 animate();
 //animateEarthAndVenus()
