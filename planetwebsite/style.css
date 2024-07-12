@@ -1,7 +1,32 @@
+@font-face {
+  font-family: Din;
+  src: url(./public/fonts/DIN\ Bold.ttf)format('truetype');
+}
+
+
+
 body{
   margin: 0;
   padding: 0;
   width: 100%;
   overflow: hidden;
   height: 100%;
+}
+
+.content{
+  position: absolute;
+  color: white;
+  font-family: Din;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items:center ;
+  text-align: center;
+  font-size: 2em;
+}
+
+button{
+  width: 20%;
+  padding: 10px;
+  font-family: Din;
 }
