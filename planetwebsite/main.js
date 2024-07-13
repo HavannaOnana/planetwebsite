@@ -167,9 +167,14 @@ function animateEarthAndVenus() {
 }
 
 
-//calling
+//calling animate earth and venus function when i click on button
+Button.addEventListener("click",function(){
+  //animateEarthAndVenus();
+  //contentDiv.classList.remove("fade-in");
+  //contentDiv.classList.add("fade-opacity");
+  console.log(contentDiv.classList);
+});
 
 
 beginning();
 animate();
-//animateEarthAndVenus()
