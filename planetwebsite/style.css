@@ -94,16 +94,17 @@ button.glow {
   color: black;
   display: flex;
   flex-direction: column;
-  margin-top: 27%;
+  margin-top: 22%;
   justify-content: center;
   text-align: center;
   align-items: center;
   width: 100%;
+  opacity: 0;
 }
 
 .moontext h1{
   font-family: Din;
-  letter-spacing: 2px;
+  letter-spacing: 40px;
   font-size: 5em;
 }
 
@@ -113,5 +114,5 @@ button.glow {
   width: 40%;
   flex-direction: row;
   justify-content: space-evenly;
-  margin-top: 1%;
+  margin-top: 9%;
 }

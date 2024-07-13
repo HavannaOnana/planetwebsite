@@ -123,6 +123,7 @@ moonGroup.add(moonMesh);
 const contentDiv = document.querySelector(".content");
 const Button = document.querySelector(".moon");
 const contentH1 = document.getElementById("h1");
+const MoonText = document.querySelector(".moontext")
 
 
 //adding a glow effect to Button
@@ -169,9 +170,10 @@ function animateEarthAndVenus() {
 
 //calling animate earth and venus function when i click on button
 Button.addEventListener("click",function(){
-  //animateEarthAndVenus();
-  //contentDiv.classList.remove("fade-in");
-  //contentDiv.classList.add("fade-opacity");
+  animateEarthAndVenus();
+  contentDiv.classList.remove("fade-in");
+  contentDiv.classList.add("fade-opacity");
+  MoonText.classList.add("fade-in")
   console.log(contentDiv.classList);
 });
 
@@ -179,4 +181,4 @@ Button.addEventListener("click",function(){
 beginning();
 animate();
 
-animateEarthAndVenus();
+//animateEarthAndVenus();
