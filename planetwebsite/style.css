@@ -36,6 +36,18 @@ button{
   font-family: Din;
   background-color: transparent;
   color: aliceblue;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease , background-color 1s ease-in-out , color 1s ease;
+}
+
+button:hover{
+  background-color: rgb(54, 54, 223);
+  color: black;
+}
+
+
+button.glow {
+  box-shadow: 0 0 10px 2px rgba(34, 172, 214, 0.8); /* Light blue glow */
 }
 
 #h1{

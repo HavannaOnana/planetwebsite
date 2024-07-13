@@ -122,7 +122,13 @@ moonGroup.add(moonMesh);
 //selecting the content from html
 const contentDiv = document.querySelector(".content");
 const Button = document.querySelector(".moon");
-const contentH1 = document.getElementById("h1")
+const contentH1 = document.getElementById("h1");
+
+
+//adding a glow effect to Button
+Button.addEventListener("mouseover",function(){
+  Button.classList.add("glow");
+})
 
 
 
@@ -159,6 +165,9 @@ function animateEarthAndVenus() {
   gsap.to(earthGroup.position, { duration: 3, z: -5, y:2, delay: 2 });
   gsap.to(moonGroup.position, { duration: 3, z: 0.6, y:-0.39,  delay: 2 });
 }
+
+
+//calling
 
 
 beginning();
