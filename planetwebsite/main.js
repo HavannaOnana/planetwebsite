@@ -178,3 +178,5 @@ Button.addEventListener("click",function(){
 
 beginning();
 animate();
+
+animateEarthAndVenus();
