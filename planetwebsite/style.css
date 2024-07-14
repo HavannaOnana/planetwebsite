@@ -83,6 +83,12 @@ button.glow {
   animation: fadeIn 2s ease-out forwards; /* Apply the fade-in animation */
 }
 
+.fade-inn {
+  opacity: 0; /* Start hidden */
+  animation: fadeIn 12s ease-out forwards; /* Apply the fade-in animation */
+}
+
+
 
 .fade-opacity{
   opacity: 0;
@@ -115,4 +121,15 @@ button.glow {
   flex-direction: row;
   justify-content: space-evenly;
   margin-top: 9%;
+}
+
+.links p{
+  transition :background-color 2s ease-in-out , color 2s ease-in-out;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.links p:hover{
+  background-color: black;
+  color: white;
 }

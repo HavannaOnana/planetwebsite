@@ -164,7 +164,15 @@ function beginning(){
 function animateEarthAndVenus() {
   gsap.to(camera.position, { duration: 3, z: 3, delay: 2 });
   gsap.to(earthGroup.position, { duration: 3, z: -5, y:2, delay: 2 });
-  gsap.to(moonGroup.position, { duration: 3, z: 0.6, y:-0.39,  delay: 2 });
+  gsap.to(moonGroup.position, { duration: 3, z: 0.6, y:-0.39,  delay: 2,
+    onUpdate : ()=>{
+      //checking if the moon has reached a specific position
+      if(Math.abs(moonGroup.position.z + -0.6)<0.01){
+        // we show the text
+        MoonText.classList.add("fade-inn");
+      }
+    }
+   });
 }
 
 
@@ -173,7 +181,6 @@ Button.addEventListener("click",function(){
   animateEarthAndVenus();
   contentDiv.classList.remove("fade-in");
   contentDiv.classList.add("fade-opacity");
-  MoonText.classList.add("fade-in")
   console.log(contentDiv.classList);
 });
 
